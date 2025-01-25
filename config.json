@@ -1,0 +1,8 @@
+{
+  "base_url": "https://www.football-data.co.uk/mmz4281/{season_year}/data.zip",
+  "file_format": "{file_name}.csv",
+  "max_goals": 6,
+  "average_xg_per_shot": 0.11,
+  "average_xg_per_corner": 0.02,
+  "output_folder": "processed_data"
+}
