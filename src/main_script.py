@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import json
 from extract import download_and_extract_zip
-from transform import calculate_xg, calculate_expected_points_poisson, aggregate_team_stats, calculate_points
+from transform import calculate_xg, calculate_expected_points_poisson, aggregate_team_stats, calculate_points, calculate_form, calculate_expected_points
 from load import save_team_stats_to_parquet
 from predict import predict_match_with_suggestions
 
@@ -44,11 +44,21 @@ def process_file(season_year, specific_file, home_team, away_team, config):
                 axis=1
             )
 
-            # Calculate actual points based on the results
+            # Step 1: Calculate points for each match
             df[['HomePoints', 'AwayPoints']] = df.apply(calculate_points, axis=1)
 
-            # Aggregate team statistics
+            # Step 2: Calculate xG for all matches
+            df = calculate_xg(df)
+            df = calculate_expected_points(df)
+            # Step 3: Calculate team stats (including Rank)
             team_stats = aggregate_team_stats(df)
+
+            # Step 4: Calculate Form
+            form_data = calculate_form(df)
+
+
+            # Step 5: Merge Form into team_stats
+            team_stats = team_stats.merge(form_data, on='Team', how='left')
 
             # Print the ranking dataset
             print("\n=== Team Rankings ===")

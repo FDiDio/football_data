@@ -8,8 +8,8 @@ def predict_match_result(team_stats, home_team, away_team, max_goals=6):
     away_stats = team_stats.loc[team_stats['Team'] == away_team].iloc[0]
 
     # Calculate combined xG for the match based on the proportion of goals scored/conceded
-    home_xg = (home_stats['xG_Scored'] / home_stats['Matches'] + away_stats['xG_Conceded'] / away_stats['Matches']) - 0.8
-    away_xg = (away_stats['xG_Scored'] / away_stats['Matches'] + home_stats['xG_Conceded'] / home_stats['Matches']) - 1.4
+    home_xg = ((home_stats['xG_Scored'] / home_stats['Matches'] + away_stats['xG_Conceded'] / away_stats['Matches'])*0.5 + (home_stats['GF'] / home_stats['Matches'] + away_stats['GA'] / away_stats['Matches'])*0.5 - 1)*1.12
+    away_xg = ((away_stats['xG_Scored'] / away_stats['Matches'] + home_stats['xG_Conceded'] / home_stats['Matches'])*0.5 + (away_stats['GF'] / away_stats['Matches'] + home_stats['GA'] / home_stats['Matches'])*0.5 - 1)*0.93
 
     # Calculate goal probabilities
     _, _, _, goal_matrix = calculate_match_outcome_probabilities(home_xg, away_xg, max_goals)
@@ -78,9 +78,8 @@ def predict_match_with_suggestions(team_stats, home_team, away_team, max_goals=6
     # Calculate goal probabilities
     home_stats = team_stats.loc[team_stats['Team'] == home_team].iloc[0]
     away_stats = team_stats.loc[team_stats['Team'] == away_team].iloc[0]
-    home_xg = (home_stats['xG_Scored'] / home_stats['Matches'] + away_stats['xG_Conceded'] / away_stats['Matches']) - 0.8
-    away_xg = (away_stats['xG_Scored'] / away_stats['Matches'] + home_stats['xG_Conceded'] / home_stats['Matches']) - 1.4
-
+    home_xg = ((home_stats['xG_Scored'] / home_stats['Matches'] + away_stats['xG_Conceded'] / away_stats['Matches'])*0.5 + (home_stats['GF'] / home_stats['Matches'] + away_stats['GA'] / away_stats['Matches'])*0.5 - 1)*1.12
+    away_xg = ((away_stats['xG_Scored'] / away_stats['Matches'] + home_stats['xG_Conceded'] / home_stats['Matches'])*0.5 + (away_stats['GF'] / away_stats['Matches'] + home_stats['GA'] / home_stats['Matches'])*0.5 - 1)*0.93
     # Recalculate the goal matrix with customized xG values
     _, _, _, goal_matrix = calculate_match_outcome_probabilities(home_xg, away_xg, max_goals)
 
