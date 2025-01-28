@@ -84,24 +84,14 @@ python script.py --season 2425 --file I1 --home TeamA --away TeamB
 
 - The team statistics are saved in a Parquet file, making it easy to query and analyze the data later.
 
-## How It Works
+## Team Performance Visualization
 
-### Download and Extract
+This module provides visualizations for comparing the actual performance vs. expected performance of football teams. It generates line plots for the following relationships:
 
-- The script constructs a URL for the ZIP file using the season-year and base URL format from `config.json`.
-- The ZIP file is downloaded and extracted to a folder based on the season.
+- **Points vs Expected Points** - Compares the total points each team has accumulated in the season to their expected points based on their performance metrics.
+- **Goals Scored vs Expected Goals Scored** - Shows how many goals each team has scored versus how many they were expected to score based on their expected goals (xG).
+- **Goals Conceded vs Expected Goals Conceded** - Displays the number of goals each team has conceded compared to their expected goals conceded.
 
-### Data Transformation
+For each of these relationships, the plots show actual vs. expected values with distinct lines, allowing you to easily compare the teams' overperformance or underperformance in various areas. The X-axis represents the teams, while the Y-axis displays the respective performance metrics.
 
-- The script reads the CSV file from the extracted data, calculates xG values for both home and away teams, and computes expected points using Poisson regression.
-- It also aggregates the team statistics, such as total points, goal difference, and goals scored, to produce a league table.
-
-### Match Prediction
-
-- Based on the aggregated statistics, the script predicts the result of a match between two specified teams. It generates a prediction along with a probability of different outcomes (e.g., home win, away win, draw).
-
-### Save Output
-
-- The team statistics are saved in a Parquet file, making it easy to query and analyze the data later.
-
-
+The visualization can be accessed and executed via the `visualize_team_performance` function, which takes in the team statistics DataFrame and generates the plots with labeled axes and legends.
