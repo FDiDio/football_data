@@ -4,8 +4,9 @@ import pandas as pd
 import json
 from extract import download_and_extract_zip
 from transform import calculate_xg, calculate_expected_points_poisson, aggregate_team_stats, calculate_points, calculate_form, calculate_expected_points
-from load import save_team_stats_to_parquet
+from load import save_team_stats_to_parquet, save_team_stats_to_csv
 from predict import predict_match_with_suggestions
+from visualization import visualize_team_performance
 
 # Load configuration from the config.json file
 def load_config(config_path='config.json'):
@@ -74,7 +75,9 @@ def process_file(season_year, specific_file, home_team, away_team, config):
 
             # Load phase
             print(f"\nSaving processed data for {csv_file_path} to Parquet...")
-            save_team_stats_to_parquet(team_stats, folder_name, csv_file_path)
+            save_team_stats_to_parquet(team_stats, folder_name +  "_parquet", csv_file_path)
+            save_team_stats_to_csv(team_stats, folder_name + "_csv", csv_file_path)
+            visualize_team_performance(team_stats)
 
         except Exception as e:
             print(f"Error while processing {csv_file_path}: {e}")
@@ -87,7 +90,6 @@ def main(season_year, specific_file=None, home_team=None, away_team=None):
 
     # Directly call the process_file function to process the specific file
     process_file(season_year, specific_file, home_team, away_team, config)
-
 if __name__ == "__main__":
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Download and process football data for a specific season.")

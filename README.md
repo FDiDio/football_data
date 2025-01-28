@@ -1,6 +1,6 @@
 # Football Data Processing Script
 
-This Python script automates the process of downloading, extracting, and processing football match data from [Football Data](https://www.football-data.co.uk). The data is processed to calculate expected goals (xG), expected points, and team statistics, and the results are saved to a Parquet file. It also allows you to predict the outcome of a match between two teams based on their statistics.
+This Python script automates the process of downloading, extracting, and processing football match data from [Football Data](https://www.football-data.co.uk). The data is processed to calculate expected goals (xG), expected goals based on their odds, expected points, and team statistics, and the results are saved to a Parquet file. It also allows you to predict the outcome of a match between two teams based on their statistics.
 
 ## Features
 
@@ -9,7 +9,7 @@ This Python script automates the process of downloading, extracting, and process
   - Calculates expected goals (xG) for both home and away teams.
   - Uses Poisson distribution to calculate expected points for each match.
   - Aggregates statistics such as points, goal difference (GD), and goals scored (GF) for each team.
-- **Match Prediction**: Predicts the result of a match between two teams based on their current form and statistics.
+- **Match Prediction**: Predicts the result of a match between two teams based on their statistics.
 - **Data Storage**: Saves the processed team statistics in a Parquet format for efficient querying.
 
 ## Prerequisites
@@ -19,7 +19,6 @@ Ensure you have the following Python packages installed:
 - `pandas`
 - `argparse`
 - `requests`
-- `pyarrow` (for Parquet)
 
 You can install them using `pip`:
 
